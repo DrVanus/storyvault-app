@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — StoryVault AI</title>
+  <meta name="description" content="The full data flow for the StoryVault AI iOS app — what we collect, what we don't, and what happens to your story input.">
+  <link rel="canonical" href="https://storyvault.app/privacy">
+  <link rel="icon" type="image/png" href="storyvault-mark.png">
+  <link rel="apple-touch-icon" href="storyvault-mark.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="legal.css">
+</head>
+<body>
+
+  <nav class="legal-nav">
+    <div class="container">
+      <a href="/" class="brand">
+        <img src="storyvault-mark.png" alt="StoryVault AI">
+        StoryVault AI
+      </a>
+      <div class="links">
+        <a href="/privacy" class="active">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/support">Support</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="legal">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: 2026-05-08</p>
+
+    <h2>Who we are</h2>
+    <p>StoryVault AI is an iOS app published by <strong>Daniel Muskin</strong>. Contact: <a href="mailto:hi@storyvault.app">hi@storyvault.app</a>.</p>
+
+    <h2>What this app collects</h2>
+
+    <h3>1. Story content you create</h3>
+    <p>When you start an AI Adventure or submit a choice, your input (the choice text and the prior turns of that adventure) is transmitted to our backend at <code>storyvault-api.fly.dev</code>. Our backend forwards it to OpenAI's API to generate the next narrative segment and an accompanying illustration. <strong>Neither we nor OpenAI use this input to train models.</strong> Your input is not stored on our servers beyond the lifetime of the request.</p>
+
+    <h3>2. Purchase information</h3>
+    <p>When you purchase StoryVault Pro, the App Store sends us a signed transaction (JWS). We forward it to our backend for verification (<code>storyvault-api.fly.dev/v1/iap/verify</code>) and store no record of the purchase beyond the entitlement state required to unlock features. The App Store handles billing, refunds, and your Apple ID — we never see your payment method.</p>
+
+    <h3>3. Anonymous usage events (telemetry)</h3>
+    <p>We use <a href="https://posthog.com/privacy" rel="noopener">PostHog</a> to collect anonymous event-level analytics: app launches, screens visited, errors, and feature usage. Each event includes a randomly-generated device identifier (PostHog's anonymous ID), the event name, and contextual properties (e.g. <code>scenario_id</code>, <code>turn_count</code>). Events do <strong>not</strong> include the content of your stories, your name, your email, or your Apple ID. You can opt out at any time by setting "Share Analytics" to off in <strong>iOS Settings → Privacy &amp; Security → Analytics &amp; Improvements</strong> (this disables PostHog at the device level).</p>
+
+    <h3>4. On-device storage</h3>
+    <p>Your saved books, reading progress, adventure runs, custom premises, and unlocked achievements are stored locally on your device using Apple's SwiftData framework. They never leave your device. We do not back them up to our servers. iCloud Backup, if you have it enabled, includes them per your iOS device settings.</p>
+
+    <h2>What this app does not collect</h2>
+    <ul>
+      <li>Your name, email address, or login credentials (the app has no login).</li>
+      <li>Your location.</li>
+      <li>Your contacts, photos, calendar, or microphone.</li>
+      <li>Any data from outside StoryVault AI.</li>
+      <li>Your IP address as a tracking identifier (the request reaches our backend over Fly.io's CDN; we do not log IPs).</li>
+    </ul>
+
+    <h2>Third parties</h2>
+    <ul>
+      <li><strong>Apple App Store</strong>: handles purchases and Apple ID authentication. <a href="https://www.apple.com/legal/privacy/en-ww/" rel="noopener">apple.com/legal/privacy</a></li>
+      <li><strong>OpenAI</strong>: receives your story input to generate narrative and illustrations. <a href="https://openai.com/policies/privacy-policy" rel="noopener">openai.com/policies/privacy-policy</a></li>
+      <li><strong>Fly.io</strong>: hosts our backend infrastructure. <a href="https://fly.io/legal/privacy-policy" rel="noopener">fly.io/legal/privacy-policy</a></li>
+      <li><strong>PostHog</strong>: receives anonymous usage events. <a href="https://posthog.com/privacy" rel="noopener">posthog.com/privacy</a></li>
+    </ul>
+
+    <h2>Children</h2>
+    <p>StoryVault AI is rated 12+. We do not knowingly collect data from children under 13. If you believe we have, please contact us at <a href="mailto:hi@storyvault.app">hi@storyvault.app</a>.</p>
+
+    <h2>Your rights</h2>
+    <p>You can delete all on-device data by deleting the app. You can revoke your Pro subscription via <strong>iOS Settings → Apple ID → Subscriptions</strong>. You can opt out of analytics via <strong>iOS Settings → Privacy &amp; Security → Analytics &amp; Improvements</strong>.</p>
+    <p>If you are in the EU/UK, you have rights to access, correct, delete, and port your data under GDPR. Since we do not store your story content or any identifier, the practical scope is limited; contact us at <a href="mailto:hi@storyvault.app">hi@storyvault.app</a> with any specific request.</p>
+
+    <h2>Changes</h2>
+    <p>If we change this policy, we will update the "Last updated" date and post the new version at <a href="/privacy">storyvault.app/privacy</a>. Material changes will be announced via the App Store update notes.</p>
+
+    <h2>Contact</h2>
+    <p>Questions: <a href="mailto:hi@storyvault.app">hi@storyvault.app</a></p>
+  </main>
+
+  <footer class="legal-footer">
+    <a href="/">Home</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/terms">Terms</a>
+    <a href="/support">Support</a>
+    <div style="margin-top: 12px;">© 2026 StoryVault AI</div>
+  </footer>
+
+</body>
+</html>
