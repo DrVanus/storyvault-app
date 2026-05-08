@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StoryVault AI — Branching tales, written with you.</title>
+  <meta name="description" content="Step into Beowulf, Dracula, or a world only you and the AI know. Every choice rewrites the next page. Twenty-eight classics included. Free to try.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://storyvault.app/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="StoryVault AI — Branching tales, written with you.">
+  <meta property="og:description" content="Step into a classic. Or a world only the AI has dreamed. Every choice rewrites the next page.">
+  <meta property="og:url" content="https://storyvault.app/">
+  <meta property="og:site_name" content="StoryVault AI">
+  <meta property="og:image" content="https://storyvault.app/storyvault-mark.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="StoryVault AI — Branching tales, written with you.">
+  <meta name="twitter:description" content="Step into a classic. Or invent your own world. Every choice rewrites the next page.">
+  <meta name="twitter:image" content="https://storyvault.app/storyvault-mark.png">
+
+  <link rel="icon" type="image/png" href="storyvault-mark.png">
+  <link rel="apple-touch-icon" href="storyvault-mark.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0F0721;
+      --bg-deeper: #07041A;
+      --fg: #F5F1E8;
+      --card: #1B0E36;
+      --card-elevated: #2A1A4F;
+      --primary: #6B3FA0;
+      --primary-fg: #ffffff;
+      --primary-dark: #2D1450;
+      --primary-light: #9D6FD9;
+      --accent: #D9B57F;
+      --accent-light: #EBD3A4;
+      --accent-dark: #B89554;
+      --muted-fg: #B8AEC6;
+      --tertiary-fg: #7C7290;
+      --border: rgba(217,181,127,0.18);
+      --border-strong: rgba(217,181,127,0.35);
+      --primary-glow: rgba(157,111,217,0.18);
+      --accent-glow: rgba(217,181,127,0.14);
+      --radius: 0.625rem;
+      --radius-lg: 1rem;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Cosmic background — deep purple radial gradients with subtle stars.
+       Pure CSS, no images: keeps the page light + scales infinitely. */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 0%, rgba(107,63,160,0.22), transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 30%, rgba(157,111,217,0.12), transparent 70%),
+        radial-gradient(ellipse 70% 40% at 50% 100%, rgba(217,181,127,0.06), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    a { color: var(--accent); text-decoration: none; transition: color .2s; }
+    a:hover { color: var(--accent-light); }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+    /* ===== NAV ===== */
+    nav.site {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(15,7,33,0.78);
+      backdrop-filter: saturate(180%) blur(16px);
+      -webkit-backdrop-filter: saturate(180%) blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav.site .container {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 16px; padding-bottom: 16px;
+    }
+    nav.site .brand {
+      display: flex; align-items: center; gap: 12px;
+      font-weight: 800; color: var(--fg); font-size: 1.1rem;
+      letter-spacing: -0.01em;
+    }
+    nav.site .brand img {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      box-shadow: 0 0 24px var(--accent-glow);
+    }
+    nav.site .links {
+      display: flex; gap: 28px;
+      font-size: 0.95rem;
+    }
+    nav.site .links a { color: var(--muted-fg); font-weight: 500; }
+    nav.site .links a:hover { color: var(--accent); }
+    @media (max-width: 640px) {
+      nav.site .links { display: none; }
+    }
+
+    /* ===== HERO ===== */
+    section.hero {
+      padding: 80px 0 100px;
+      position: relative;
+    }
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 60px;
+      align-items: center;
+    }
+    @media (max-width: 880px) {
+      .hero-layout { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      padding: 6px 12px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+    }
+    .hero-text h1 {
+      font-family: 'Playfair Display', 'Iowan Old Style', Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+    }
+    .hero-text h1 .italic-anything {
+      font-style: italic; font-weight: 600;
+      color: var(--accent);
+      display: inline-block;
+    }
+    .hero-text .lede {
+      font-size: 1.18rem;
+      color: var(--muted-fg);
+      max-width: 560px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 880px) { .hero-text .lede { margin-left: auto; margin-right: auto; } }
+
+    .hero-buttons {
+      display: flex; gap: 14px; flex-wrap: wrap;
+    }
+    @media (max-width: 880px) { .hero-buttons { justify-content: center; } }
+
+    .btn-warm {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      color: #fff; font-weight: 700; font-size: 1rem;
+      border-radius: var(--radius);
+      transition: transform .15s, box-shadow .15s;
+      box-shadow: 0 8px 32px rgba(107,63,160,0.35);
+    }
+    .btn-warm:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(107,63,160,0.5);
+      color: #fff;
+    }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 22px;
+      color: var(--accent);
+      background: rgba(217,181,127,0.05);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      font-weight: 600; font-size: 1rem;
+      transition: background .2s, border-color .2s;
+    }
+    .btn-outline:hover {
+      background: rgba(217,181,127,0.12);
+      border-color: var(--accent);
+      color: var(--accent-light);
+    }
+
+    .hero-image {
+      position: relative;
+    }
+    .hero-image img {
+      width: 100%; max-width: 480px;
+      display: block;
+      border-radius: var(--radius-lg);
+      box-shadow:
+        0 20px 80px rgba(107,63,160,0.4),
+        0 0 0 1px var(--border);
+      margin: 0 auto;
+    }
+    .hero-image::after {
+      content: '';
+      position: absolute;
+      inset: -40px;
+      background: radial-gradient(ellipse at center, var(--primary-glow), transparent 60%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* ===== STATS STRIP ===== */
+    .stats-strip {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 32px;
+      padding: 28px 24px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin: 40px 0;
+      background: rgba(27,14,54,0.4);
+    }
+    .stat { text-align: center; min-width: 140px; }
+    .stat-value {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700; font-size: 2.2rem; color: var(--accent);
+      display: block; line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.82rem; color: var(--muted-fg);
+      text-transform: uppercase; letter-spacing: 0.12em;
+      margin-top: 6px;
+    }
+
+    /* ===== SECTION ===== */
+    section { position: relative; }
+    .section-block { padding: 80px 0; }
+    .section-block.tight { padding: 60px 0; }
+    .section-eyebrow {
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 14px;
+    }
+    .section-block h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700; font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.1; letter-spacing: -0.02em;
+      margin-bottom: 18px;
+    }
+    .section-block h2 em {
+      font-style: italic; color: var(--accent); font-weight: 600;
+    }
+    .section-block .lede {
+      color: var(--muted-fg); font-size: 1.1rem;
+      max-width: 640px; margin-bottom: 48px;
+    }
+
+    /* ===== FEATURES ===== */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .feature-card {
+      padding: 28px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      transition: transform .2s, border-color .2s, box-shadow .2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-strong);
+      box-shadow: 0 16px 48px rgba(15,7,33,0.6);
+    }
+    .feature-card .icon-box {
+      width: 48px; height: 48px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(217,181,127,0.10);
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+      font-size: 1.4rem;
+    }
+    .feature-card h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 600;
+      font-size: 1.3rem; line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .feature-card p {
+      color: var(--muted-fg);
+      font-size: 0.97rem;
+    }
+
+    /* ===== HOW IT WORKS ===== */
+    .how-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 60px; align-items: center;
+    }
+    @media (max-width: 880px) { .how-grid { grid-template-columns: 1fr; gap: 40px; } }
+    .how-image {
+      border-radius: var(--radius-lg);
+      width: 100%; max-width: 460px;
+      display: block; margin: 0 auto;
+      box-shadow:
+        0 20px 60px rgba(107,63,160,0.35),
+        0 0 0 1px var(--border);
+    }
+    .how-steps { list-style: none; counter-reset: step; }
+    .how-steps li {
+      counter-increment: step;
+      padding: 16px 0 16px 64px;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+    .how-steps li:last-child { border-bottom: none; }
+    .how-steps li::before {
+      content: counter(step);
+      position: absolute; left: 0; top: 18px;
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700; font-size: 1.2rem;
+      color: var(--accent);
+      background: var(--accent-glow);
+      border: 1px solid var(--border-strong);
+      border-radius: 50%;
+    }
+    .how-steps h4 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 600; font-size: 1.15rem;
+      margin-bottom: 4px;
+    }
+    .how-steps p { color: var(--muted-fg); font-size: 0.97rem; }
+
+    /* ===== LIBRARY GRID — sample classics ===== */
+    .library-tape {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      justify-content: center;
+    }
+    .library-chip {
+      padding: 10px 16px;
+      background: rgba(27,14,54,0.6);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.92rem;
+      color: var(--muted-fg);
+      transition: border-color .2s, color .2s;
+    }
+    .library-chip:hover { border-color: var(--accent); color: var(--accent); }
+    .library-chip em {
+      font-style: italic;
+      color: var(--accent-light);
+    }
+
+    /* ===== PRO PLANS ===== */
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 800px) { .plans { grid-template-columns: 1fr; } }
+
+    .plan {
+      padding: 32px 28px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      position: relative;
+    }
+    .plan.featured {
+      border-color: var(--accent);
+      background: linear-gradient(180deg, rgba(217,181,127,0.06), var(--card));
+      transform: scale(1.02);
+    }
+    .plan.featured::before {
+      content: 'Best Value';
+      position: absolute;
+      top: -12px; right: 20px;
+      padding: 4px 12px;
+      background: var(--accent);
+      color: var(--primary-dark);
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.08em;
+      border-radius: 999px;
+      text-transform: uppercase;
+    }
+    .plan h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 600; font-size: 1.4rem;
+      margin-bottom: 4px;
+    }
+    .plan .price {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700; font-size: 2.4rem;
+      color: var(--accent);
+      margin: 12px 0 4px;
+    }
+    .plan .period {
+      color: var(--muted-fg); font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+    .plan ul { list-style: none; margin-bottom: 24px; }
+    .plan li {
+      padding: 8px 0 8px 26px;
+      font-size: 0.95rem;
+      position: relative;
+      color: var(--fg);
+    }
+    .plan li::before {
+      content: '';
+      position: absolute; left: 0; top: 14px;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .plan li.muted { color: var(--muted-fg); }
+    .plan li.muted::before { background: var(--tertiary-fg); box-shadow: none; }
+
+    /* ===== FAQ ===== */
+    .faq-list {
+      max-width: 720px; margin: 0 auto;
+    }
+    details.faq {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    details.faq summary {
+      font-weight: 600; font-size: 1.05rem;
+      cursor: pointer;
+      list-style: none;
+      display: flex; justify-content: space-between; align-items: center;
+      padding-right: 8px;
+      color: var(--fg);
+    }
+    details.faq summary::-webkit-details-marker { display: none; }
+    details.faq summary::after {
+      content: '+';
+      color: var(--accent);
+      font-weight: 400; font-size: 1.4rem;
+      transition: transform .2s;
+    }
+    details.faq[open] summary::after { transform: rotate(45deg); }
+    details.faq p {
+      margin-top: 12px; color: var(--muted-fg);
+      font-size: 0.98rem; line-height: 1.7;
+    }
+
+    /* ===== CTA STRIP ===== */
+    .cta-strip {
+      text-align: center;
+      padding: 80px 24px;
+      background:
+        radial-gradient(ellipse at center, var(--primary-glow), transparent 70%),
+        var(--card);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-top: 80px;
+    }
+    .cta-strip h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700; font-size: clamp(2rem, 4vw, 2.8rem);
+      margin-bottom: 14px;
+    }
+    .cta-strip p {
+      color: var(--muted-fg);
+      font-size: 1.1rem; margin-bottom: 28px;
+      max-width: 560px; margin-left: auto; margin-right: auto;
+    }
+
+    /* ===== FOOTER ===== */
+    footer.site {
+      padding: 40px 24px 60px;
+      text-align: center;
+      color: var(--tertiary-fg);
+      font-size: 0.9rem;
+    }
+    footer.site .links { margin-bottom: 16px; }
+    footer.site .links a {
+      color: var(--muted-fg);
+      margin: 0 14px;
+    }
+    footer.site .links a:hover { color: var(--accent); }
+    footer.site .copyright { margin-top: 12px; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAV ===== -->
+  <nav class="site">
+    <div class="container">
+      <div class="brand">
+        <img src="storyvault-mark.png" alt="StoryVault AI">
+        StoryVault AI
+      </div>
+      <div class="links">
+        <a href="#how">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#plans">Pro</a>
+        <a href="#faq">FAQ</a>
+        <a href="/support">Support</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-layout">
+        <div class="hero-text">
+          <span class="hero-eyebrow">Coming to iOS</span>
+          <h1>Branching tales,<br><span class="italic-anything">written with you.</span></h1>
+          <p class="lede">Step into Beowulf, Dracula, or a world only the AI has dreamed. Pick from offered choices — or type whatever you want. Every choice rewrites the next page.</p>
+          <div class="hero-buttons">
+            <a href="#plans" class="btn-warm">
+              <span>Get StoryVault AI</span>
+              <span aria-hidden="true">→</span>
+            </a>
+            <a href="#how" class="btn-outline">See how it works</a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img src="storyvault-mark.png" alt="StoryVault — an ornate antique tome on a cosmic background">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STATS STRIP ===== -->
+  <div class="container">
+    <div class="stats-strip">
+      <div class="stat">
+        <span class="stat-value">28</span>
+        <span class="stat-label">Classics included</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">∞</span>
+        <span class="stat-label">Unique runs</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">4</span>
+        <span class="stat-label">Original worlds</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">$0</span>
+        <span class="stat-label">To start reading</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="section-block" id="how">
+    <div class="container">
+      <div class="how-grid">
+        <div>
+          <div class="section-eyebrow">How it works</div>
+          <h2>A page. A choice.<br><em>A new page.</em></h2>
+          <p class="lede">Not an audiobook. Not a chatbot. A tale that bends to every move you make, written in the voice of the world you stepped into.</p>
+          <ol class="how-steps">
+            <li>
+              <h4>Pick a tale</h4>
+              <p>Twenty-eight bundled classics — Dracula, Sherlock, Beowulf, the Odyssey — each with a hand-curated AI scenario. Or invent your own.</p>
+            </li>
+            <li>
+              <h4>Read what the AI writes</h4>
+              <p>Streaming prose arrives a sentence at a time, illustrated with a fresh painting per turn.</p>
+            </li>
+            <li>
+              <h4>Choose what happens next</h4>
+              <p>Pick from three offered branches, or type whatever you want. The story adapts.</p>
+            </li>
+          </ol>
+        </div>
+        <div>
+          <img class="how-image" src="hero-branching.png" alt="An ornate antique quill writing branching golden ink">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURES ===== -->
+  <section class="section-block" id="features" style="background: rgba(27,14,54,0.3);">
+    <div class="container">
+      <div class="section-eyebrow">What's inside</div>
+      <h2>Every classic. <em>Every choice.</em></h2>
+      <p class="lede">A literary engine, a quiet reader, a trophy gallery — built like a chef's knife, not a Swiss army.</p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="icon-box">📖</div>
+          <h3>Live a classic</h3>
+          <p>Twenty-eight public-domain books pre-loaded — Dracula, Pride &amp; Prejudice, Sherlock Holmes, Treasure Island, the Odyssey, and 23 more. Each has its own AI Adventure scenario calibrated to the source's voice.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon-box">✨</div>
+          <h3>Or a world only you know</h3>
+          <p>Sketch a premise — title, genre, characters, a plot seed. The AI weaves a branching tale around it, keeping continuity across every turn.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon-box">🎨</div>
+          <h3>Painted, not printed</h3>
+          <p>Every turn arrives with a fresh illustration in the same Victorian-engraving-meets-illuminated-manuscript style as the rest of the app.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon-box">📚</div>
+          <h3>A reader, too</h3>
+          <p>Saved books open into a clean, themable reader — adjustable size, serif/sans/mono, light/sepia/dark, chapter navigation that remembers where you left off.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon-box">🏆</div>
+          <h3>Earn the trophies</h3>
+          <p>Achievements for completing books, finishing scenarios, writing your own moves, and reading across genres. Stats track your library, finished reads, and turns played.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon-box">🔒</div>
+          <h3>Yours alone</h3>
+          <p>Saved adventures and reading progress live on your device — no account, no login, no telemetry tied to your name. The AI never trains on your stories.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LIBRARY ===== -->
+  <section class="section-block tight">
+    <div class="container">
+      <div class="section-eyebrow" style="text-align:center;">The bundled vault</div>
+      <h2 style="text-align:center;"><em>Twenty-eight</em> classics, free forever</h2>
+      <p class="lede" style="text-align:center; margin-left:auto; margin-right:auto;">All public-domain. All offline-readable. All yours to keep.</p>
+      <div class="library-tape">
+        <div class="library-chip"><em>Dracula</em> · Bram Stoker</div>
+        <div class="library-chip"><em>Frankenstein</em> · Mary Shelley</div>
+        <div class="library-chip"><em>Pride and Prejudice</em> · Jane Austen</div>
+        <div class="library-chip"><em>Sherlock Holmes</em> · A. Conan Doyle</div>
+        <div class="library-chip"><em>Treasure Island</em> · R. L. Stevenson</div>
+        <div class="library-chip"><em>The Odyssey</em> · Homer</div>
+        <div class="library-chip"><em>Alice in Wonderland</em> · Lewis Carroll</div>
+        <div class="library-chip"><em>Jane Eyre</em> · Charlotte Brontë</div>
+        <div class="library-chip"><em>The Time Machine</em> · H. G. Wells</div>
+        <div class="library-chip"><em>The Count of Monte Cristo</em> · A. Dumas</div>
+        <div class="library-chip"><em>Wuthering Heights</em> · Emily Brontë</div>
+        <div class="library-chip"><em>Carmilla</em> · J. Sheridan Le Fanu</div>
+        <div class="library-chip">+ 16 more</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRO PLANS ===== -->
+  <section class="section-block" id="plans" style="background: rgba(27,14,54,0.3);">
+    <div class="container">
+      <div class="section-eyebrow" style="text-align:center;">StoryVault Pro</div>
+      <h2 style="text-align:center;">Free to try. <em>Pro for the unlimited library.</em></h2>
+      <p class="lede" style="text-align:center; margin-left:auto; margin-right:auto;">Three free AI Adventure turns every month. Pro removes every cap.</p>
+
+      <div class="plans">
+        <div class="plan">
+          <h3>Monthly</h3>
+          <div class="price">$9.99</div>
+          <div class="period">per month, cancel anytime</div>
+          <ul>
+            <li>Unlimited AI Adventure turns</li>
+            <li>Unlimited custom premises</li>
+            <li>Unlimited saved adventures</li>
+            <li class="muted">AI narration · coming soon</li>
+            <li class="muted">AI scene art · coming soon</li>
+          </ul>
+        </div>
+        <div class="plan featured">
+          <h3>Annual</h3>
+          <div class="price">$79.99</div>
+          <div class="period">per year — save 33% vs. monthly</div>
+          <ul>
+            <li>Everything in Monthly</li>
+            <li>Two months free</li>
+            <li>Renews yearly, cancel anytime</li>
+            <li class="muted">AI narration · coming soon</li>
+            <li class="muted">AI scene art · coming soon</li>
+          </ul>
+        </div>
+        <div class="plan">
+          <h3>Lifetime</h3>
+          <div class="price">$199</div>
+          <div class="period">one-time — yours to keep</div>
+          <ul>
+            <li>Everything, forever</li>
+            <li>No renewal, ever</li>
+            <li>Future features included</li>
+            <li class="muted">AI narration · coming soon</li>
+            <li class="muted">AI scene art · coming soon</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section-block" id="faq">
+    <div class="container">
+      <div class="section-eyebrow" style="text-align:center;">Common questions</div>
+      <h2 style="text-align:center;">FAQ</h2>
+      <div class="faq-list">
+        <details class="faq">
+          <summary>Is the AI just rewriting the original book?</summary>
+          <p>No — the AI uses the book's world and voice as the setting, but every adventure is its own continuity. You're not reading Dracula. You're at Castle Dracula, making choices Jonathan Harker never had.</p>
+        </details>
+        <details class="faq">
+          <summary>What if the AI says something off?</summary>
+          <p>It happens. Tap "Try again" on any turn to regenerate, or type a different choice to steer the story. The system prompt is tuned to keep prose in-period and on-tone, but AI is AI.</p>
+        </details>
+        <details class="faq">
+          <summary>Does the AI train on my stories?</summary>
+          <p>No. Your input is sent to our backend for the duration of the request, forwarded to OpenAI for generation, and not stored on either end. We don't sell or share your input.</p>
+        </details>
+        <details class="faq">
+          <summary>Can I read offline?</summary>
+          <p>The 28 bundled books are fully offline-readable. AI Adventure requires a network connection — every turn is generated live by the model.</p>
+        </details>
+        <details class="faq">
+          <summary>What happens if I cancel Pro?</summary>
+          <p>You keep access through the end of the current period, then drop back to the free tier (3 AI Adventure turns / month). Your saved adventures and library stay — they're on your device.</p>
+        </details>
+        <details class="faq">
+          <summary>How is this different from AI Dungeon?</summary>
+          <p>StoryVault is built around literature — period-correct prose, hand-tuned scenarios, a real reader for the source books. The AI keeps you in the source's voice instead of letting the story drift into generic fantasy.</p>
+        </details>
+        <details class="faq">
+          <summary>iPad? Mac? Android?</summary>
+          <p>iOS first. iPad works on the same iOS app. Android and Mac are on the roadmap but not committed yet.</p>
+        </details>
+        <details class="faq">
+          <summary>I'm a teacher / parent / reviewer — how do I evaluate it?</summary>
+          <p>The bundled library is all public-domain material rated 12+. The AI Adventure system prompt explicitly excludes explicit sexual content and child endangerment. Reach out at <a href="mailto:hi@storyvault.app">hi@storyvault.app</a> for review codes.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA STRIP ===== -->
+  <section class="cta-strip">
+    <h2>The page is open.</h2>
+    <p>Free to try. Twenty-eight classics already in the vault. The next one is yours to write.</p>
+    <a href="#plans" class="btn-warm">
+      <span>Get StoryVault AI</span>
+      <span aria-hidden="true">→</span>
+    </a>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site">
+    <div class="links">
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/support">Support</a>
+      <a href="mailto:hi@storyvault.app">Contact</a>
+    </div>
+    <div class="copyright">© 2026 StoryVault AI. All tales told are your own.</div>
+  </footer>
+
+</body>
+</html>
