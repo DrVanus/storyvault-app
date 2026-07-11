@@ -198,23 +198,56 @@
 
     .hero-image {
       position: relative;
-    }
-    .hero-image img {
-      width: 100%; max-width: 480px;
-      display: block;
-      border-radius: var(--radius-lg);
-      box-shadow:
-        0 20px 80px rgba(107,63,160,0.4),
-        0 0 0 1px var(--border);
-      margin: 0 auto;
+      display: flex;
+      justify-content: center;
     }
     .hero-image::after {
       content: '';
       position: absolute;
-      inset: -40px;
-      background: radial-gradient(ellipse at center, var(--primary-glow), transparent 60%);
+      inset: -60px;
+      background: radial-gradient(ellipse at center, var(--primary-glow), transparent 62%);
       pointer-events: none;
       z-index: -1;
+    }
+
+    /* ===== iPHONE DEVICE FRAME =====
+       A dark titanium bezel wrapping a real app capture. Screenshots
+       already carry their own status bar + Dynamic Island, so the frame
+       is just a rounded bezel + screen clip — no faux notch needed. */
+    .device {
+      position: relative;
+      width: 100%;
+      max-width: 288px;
+      margin: 0 auto;
+      padding: 9px;
+      border-radius: 42px;
+      background: linear-gradient(155deg, #3a3155 0%, #191033 45%, #0b0620 100%);
+      box-shadow:
+        0 28px 70px rgba(7,4,26,0.7),
+        0 0 0 1px rgba(217,181,127,0.14),
+        inset 0 1px 1px rgba(255,255,255,0.06),
+        inset 0 0 0 1px rgba(0,0,0,0.5);
+    }
+    .device img {
+      display: block;
+      width: 100%;
+      border-radius: 34px;
+      background: var(--bg-deeper);
+    }
+    /* Side buttons — subtle titanium rails */
+    .device::before,
+    .device::after {
+      content: '';
+      position: absolute;
+      width: 3px;
+      border-radius: 3px;
+      background: linear-gradient(180deg, #4a4066, #241844);
+    }
+    .device::before { left: -3px; top: 116px; height: 56px; }
+    .device::after  { right: -3px; top: 132px; height: 64px; }
+    .device.device-hero { max-width: 340px; }
+    @media (max-width: 880px) {
+      .device.device-hero { max-width: 300px; }
     }
 
     /* ===== STATS STRIP ===== */
@@ -345,34 +378,25 @@
     .screens-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      align-items: end;
+      gap: 28px;
+      align-items: start;
     }
     @media (max-width: 880px) {
-      .screens-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .screens-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 20px; }
     }
     .screen-card {
       text-align: center;
     }
-    .screen-card .screen-frame {
-      position: relative;
-      border-radius: 28px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      box-shadow:
-        0 20px 60px rgba(15,7,33,0.6),
-        0 0 0 8px rgba(15,7,33,0.4);
+    .screen-card .device {
       transition: transform .3s, box-shadow .3s;
-      background: var(--card);
     }
-    .screen-card:hover .screen-frame {
-      transform: translateY(-6px);
+    .screen-card:hover .device {
+      transform: translateY(-8px);
       box-shadow:
-        0 28px 80px rgba(107,63,160,0.4),
-        0 0 0 8px rgba(15,7,33,0.4);
-    }
-    .screen-card img {
-      width: 100%; display: block;
+        0 34px 80px rgba(107,63,160,0.45),
+        0 0 0 1px rgba(217,181,127,0.22),
+        inset 0 1px 1px rgba(255,255,255,0.06),
+        inset 0 0 0 1px rgba(0,0,0,0.5);
     }
     .screen-card .screen-label {
       margin-top: 14px;
@@ -577,7 +601,9 @@
           </div>
         </div>
         <div class="hero-image">
-          <img src="storyvault-mark.png" alt="StoryVault — an ornate antique tome on a cosmic background">
+          <div class="device device-hero">
+            <img src="screenshots/dark-adventure.jpg" alt="StoryVault AI — the AI Adventure screen: branching tales generated turn by turn, with Alice in Wonderland and Carmilla scenarios to step into">
+          </div>
         </div>
       </div>
     </div>
@@ -685,17 +711,17 @@
       <p class="lede" style="text-align:center; margin-left:auto; margin-right:auto;">A literary luxury aesthetic, hand-built one screen at a time.</p>
       <div class="screens-grid">
         <div class="screen-card">
-          <div class="screen-frame">
-            <img src="screenshots/sv-home.jpg" alt="StoryVault AI home screen — Write a Story and AI Adventure, with Most Popular and Fantasy book rows" loading="lazy">
+          <div class="device">
+            <img src="screenshots/dark-bookdetail.jpg" alt="Pride and Prejudice book detail — cover, Romance tag, 61 chapters, and the opening first pages" loading="lazy">
           </div>
           <div class="screen-label">
-            <strong>Home</strong>
-            Pick a tale or write your own
+            <strong>Step into a classic</strong>
+            Eighty-seven, ready to live
           </div>
         </div>
         <div class="screen-card">
-          <div class="screen-frame">
-            <img src="screenshots/sv-adventure.jpg" alt="AI Adventure — tales that branch with every turn, with Write Your Own Tale and Browse by mood" loading="lazy">
+          <div class="device">
+            <img src="screenshots/dark-adventure.jpg" alt="AI Adventure — branching tales generated turn by turn, with Alice in Wonderland and Carmilla to live" loading="lazy">
           </div>
           <div class="screen-label">
             <strong>AI Adventure</strong>
@@ -703,8 +729,8 @@
           </div>
         </div>
         <div class="screen-card">
-          <div class="screen-frame">
-            <img src="screenshots/sv-reader.jpg" alt="The reader — Alice's Adventures in Wonderland open to Chapter 1 in a clean reading view" loading="lazy">
+          <div class="device">
+            <img src="screenshots/dark-reader.jpg" alt="The reader — Dracula open to Chapter 1 of 27 in a clean, dark reading view" loading="lazy">
           </div>
           <div class="screen-label">
             <strong>Reader</strong>
@@ -712,12 +738,12 @@
           </div>
         </div>
         <div class="screen-card">
-          <div class="screen-frame">
-            <img src="screenshots/sv-library.jpg" alt="Your Vault library shelf with 87 classics waiting to be read" loading="lazy">
+          <div class="device">
+            <img src="screenshots/dark-library.jpg" alt="Your Vault — a library shelf of saved classics: Frankenstein, Alice, Treasure Island, Sherlock, Pride and Prejudice" loading="lazy">
           </div>
           <div class="screen-label">
-            <strong>Library</strong>
-            Your vault — 87 classics
+            <strong>Your vault</strong>
+            Every book you keep
           </div>
         </div>
       </div>
