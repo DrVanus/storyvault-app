@@ -234,6 +234,28 @@
       border-radius: 34px;
       background: var(--bg-deeper);
     }
+    /* Hero screenshot carousel — crossfade 3 captures every 4s */
+    .hero-carousel { position: relative; width: 100%; }
+    .hero-carousel img {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      animation: sv-carousel 12s infinite;
+    }
+    .hero-carousel img:nth-child(1) { position: relative; animation-delay: 0s; }
+    .hero-carousel img:nth-child(2) { animation-delay: 4s; }
+    .hero-carousel img:nth-child(3) { animation-delay: 8s; }
+    @keyframes sv-carousel {
+      0%   { opacity: 0; }
+      4%   { opacity: 1; }
+      29%  { opacity: 1; }
+      33%  { opacity: 0; }
+      100% { opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-carousel img { animation: none; opacity: 1; }
+      .hero-carousel img:nth-child(n+2) { display: none; }
+    }
     /* Side buttons — subtle titanium rails */
     .device::before,
     .device::after {
@@ -314,13 +336,14 @@
     }
     .feature-card .icon-box {
       width: 48px; height: 48px;
-      border-radius: 10px;
+      border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
-      background: rgba(217,181,127,0.10);
-      border: 1px solid var(--border);
+      background: linear-gradient(150deg, rgba(157,111,217,0.20), rgba(107,63,160,0.10));
+      border: 1px solid rgba(157,111,217,0.30);
       margin-bottom: 16px;
-      font-size: 1.4rem;
+      color: var(--primary-light);
     }
+    .feature-card .icon-box svg { width: 24px; height: 24px; display: block; }
     .feature-card h3 {
       font-family: 'Playfair Display', Georgia, serif;
       font-weight: 600;
@@ -602,7 +625,11 @@
         </div>
         <div class="hero-image">
           <div class="device device-hero">
-            <img src="screenshots/dark-adventure.jpg" alt="StoryVault AI — the AI Adventure screen: branching tales generated turn by turn, with Alice in Wonderland and Carmilla scenarios to step into">
+            <div class="hero-carousel">
+              <img src="screenshots/dark-adventure.jpg" alt="StoryVault AI — the AI Adventure screen: branching tales generated turn by turn, with Alice in Wonderland and Carmilla scenarios to step into">
+              <img src="screenshots/dark-reader.jpg" alt="The reader — Dracula open to Chapter 1 of 27 in a clean, dark reading view" loading="lazy">
+              <img src="screenshots/dark-library.jpg" alt="Your Vault — a library shelf of saved classics: Frankenstein, Alice, Treasure Island, Sherlock, Pride and Prejudice" loading="lazy">
+            </div>
           </div>
         </div>
       </div>
@@ -670,32 +697,32 @@
 
       <div class="features-grid">
         <div class="feature-card">
-          <div class="icon-box">📖</div>
+          <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5C10.3 4.2 8 3.6 4.8 3.6a.8.8 0 0 0-.8.8v12.4a.8.8 0 0 0 .8.8c3.2 0 5.5.6 7.2 1.9 1.7-1.3 4-1.9 7.2-1.9a.8.8 0 0 0 .8-.8V4.4a.8.8 0 0 0-.8-.8C16 3.6 13.7 4.2 12 5.5z"/><path d="M12 5.5V19.5"/></svg></div>
           <h3>Live a classic</h3>
           <p>Eighty-seven public-domain books pre-loaded — Dracula, Pride &amp; Prejudice, Sherlock Holmes, Treasure Island, the Odyssey, and 82 more. Each has its own AI Adventure scenario calibrated to the source's voice.</p>
         </div>
         <div class="feature-card">
-          <div class="icon-box">✨</div>
+          <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.6L19.5 10l-5.6 1.4L12 17l-1.9-5.6L4.5 10l5.6-1.4z"/><path d="M18.5 15.5l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg></div>
           <h3>Or a world only you know</h3>
           <p>Sketch a premise — title, genre, characters, a plot seed. The AI weaves a branching tale around it, keeping continuity across every turn.</p>
         </div>
         <div class="feature-card">
-          <div class="icon-box">🎨</div>
+          <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 3.5l6 6-9 9c-1.3 1.3-3.2 1.6-4.4.4-1.2-1.2-.9-3.1.4-4.4z"/><path d="M11 7l6 6"/><path d="M7 15.5c-1.6.4-2.5 1.6-3 3.5 1.9-.5 3.1-1.4 3.5-3"/></svg></div>
           <h3>Painted, not printed</h3>
           <p>Every turn arrives with a fresh illustration in the same Victorian-engraving-meets-illuminated-manuscript style as the rest of the app.</p>
         </div>
         <div class="feature-card">
-          <div class="icon-box">📚</div>
+          <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4.5" width="4.5" height="15" rx="1"/><rect x="9.5" y="4.5" width="4.5" height="15" rx="1"/><path d="M15.4 5.6l3.8 1 .9 13.4-4.2-1.1z" transform="rotate(-6 17 12)"/></svg></div>
           <h3>A reader, too</h3>
           <p>Saved books open into a clean, themable reader — adjustable size, serif/sans/mono, light/sepia/dark, chapter navigation that remembers where you left off.</p>
         </div>
         <div class="feature-card">
-          <div class="icon-box">🏆</div>
+          <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 5.5H4.5V7a3 3 0 0 0 3 3M17 5.5h2.5V7a3 3 0 0 1-3 3"/><path d="M12 13v3M9 20h6M10 20l.5-4h3l.5 4"/></svg></div>
           <h3>Earn the trophies</h3>
           <p>Achievements for completing books, finishing scenarios, writing your own moves, and reading across genres. Stats track your library, finished reads, and turns played.</p>
         </div>
         <div class="feature-card">
-          <div class="icon-box">🔒</div>
+          <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 2.5v5.2c0 4.3-2.9 7.6-7 9-4.1-1.4-7-4.7-7-9V5.5z"/><rect x="9.3" y="10.8" width="5.4" height="4.5" rx="1"/><path d="M10.4 10.8V9.6a1.6 1.6 0 0 1 3.2 0v1.2"/></svg></div>
           <h3>Yours alone</h3>
           <p>Saved adventures and reading progress live on your device — no account, no login, no telemetry tied to your name. The AI never trains on your stories.</p>
         </div>
