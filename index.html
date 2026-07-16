@@ -240,16 +240,15 @@
       position: absolute;
       inset: 0;
       opacity: 0;
-      animation: sv-carousel 12s infinite;
+      animation: sv-carousel 8s infinite;
     }
     .hero-carousel img:nth-child(1) { position: relative; animation-delay: 0s; }
     .hero-carousel img:nth-child(2) { animation-delay: 4s; }
-    .hero-carousel img:nth-child(3) { animation-delay: 8s; }
     @keyframes sv-carousel {
       0%   { opacity: 0; }
-      4%   { opacity: 1; }
-      29%  { opacity: 1; }
-      33%  { opacity: 0; }
+      6%   { opacity: 1; }
+      44%  { opacity: 1; }
+      50%  { opacity: 0; }
       100% { opacity: 0; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -626,9 +625,8 @@
         <div class="hero-image">
           <div class="device device-hero">
             <div class="hero-carousel">
-              <img src="screenshots/dark-adventure.jpg" alt="StoryVault AI — the AI Adventure screen: branching tales generated turn by turn, with Alice in Wonderland and Carmilla scenarios to step into">
-              <img src="screenshots/dark-reader.jpg" alt="The reader — Dracula open to Chapter 1 of 27 in a clean, dark reading view" loading="lazy">
-              <img src="screenshots/dark-library.jpg" alt="Your Vault — a library shelf of saved classics: Frankenstein, Alice, Treasure Island, Sherlock, Pride and Prejudice" loading="lazy">
+              <img src="screenshots/dark-dracula.jpg" alt="StoryVault AI — Dracula's book page: cover, Horror tag, 27 chapters, and the opening journal entry ready to read">
+              <img src="screenshots/sepia-reader.jpg" alt="The reader in warm sepia — Dracula open to Chapter 1 in a cozy, themable reading view" loading="lazy">
             </div>
           </div>
         </div>
