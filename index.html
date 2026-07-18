@@ -429,22 +429,28 @@
       pointer-events: none;
     }
 
-    /* Hero screenshot carousel — crossfade 2 captures every 4s */
+    /* Hero screenshot carousel — 6 captures (light + dark), 4s each,
+       24s loop. Visible window per slide is 1/6 of the cycle with a
+       ~0.6s crossfade at each edge. */
     .hero-carousel { position: relative; width: 100%; }
     .hero-carousel img {
       position: absolute;
       inset: 0;
       opacity: 0;
-      animation: sv-carousel 8s infinite;
+      animation: sv-carousel 24s infinite;
     }
     .hero-carousel img:nth-child(1) { position: relative; animation-delay: 0s; }
     .hero-carousel img:nth-child(2) { animation-delay: 4s; }
+    .hero-carousel img:nth-child(3) { animation-delay: 8s; }
+    .hero-carousel img:nth-child(4) { animation-delay: 12s; }
+    .hero-carousel img:nth-child(5) { animation-delay: 16s; }
+    .hero-carousel img:nth-child(6) { animation-delay: 20s; }
     @keyframes sv-carousel {
-      0%   { opacity: 0; }
-      6%   { opacity: 1; }
-      44%  { opacity: 1; }
-      50%  { opacity: 0; }
-      100% { opacity: 0; }
+      0%     { opacity: 0; }
+      2.5%   { opacity: 1; }
+      16.67% { opacity: 1; }
+      19.2%  { opacity: 0; }
+      100%   { opacity: 0; }
     }
     @media (prefers-reduced-motion: reduce) {
       .hero-carousel img { animation: none; opacity: 1; }
@@ -778,6 +784,159 @@
     .plan li.muted { color: var(--muted-fg); }
     .plan li.muted::before { color: var(--tertiary-fg); text-shadow: none; }
 
+    /* ===== AI ADVENTURE SHOWCASE ===== */
+    .adv-hero-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 56px;
+      align-items: center;
+      margin-bottom: 72px;
+    }
+    @media (max-width: 880px) { .adv-hero-grid { grid-template-columns: 1fr; gap: 44px; } }
+
+    /* The "turn" panel — a stylized rendition of an adventure turn using
+       the app's real opening prose and choice-chip idiom. */
+    .turn-panel {
+      background: linear-gradient(180deg, var(--card-2), var(--card));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px 30px 26px;
+      box-shadow: 0 24px 64px rgba(6,3,18,0.55), inset 0 1px 0 rgba(255,255,255,0.05);
+      position: relative;
+    }
+    .turn-panel .turn-kicker {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .turn-panel .turn-kicker::after {
+      content: '';
+      flex: 1; height: 1px;
+      background: linear-gradient(90deg, var(--border-strong), transparent);
+    }
+    .turn-panel .prose {
+      font-family: 'Playfair Display', 'Iowan Old Style', Georgia, serif;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--fg);
+      margin-bottom: 22px;
+    }
+    .turn-panel .prose em { color: var(--accent-light); }
+    .turn-choices { display: flex; flex-direction: column; gap: 10px; }
+    .turn-choice {
+      display: flex; align-items: center; gap: 12px;
+      text-align: left;
+      padding: 13px 16px;
+      background: rgba(217,181,127,0.05);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--fg);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      transition: border-color .2s, background .2s, transform .15s;
+    }
+    .turn-choice:hover {
+      border-color: var(--accent);
+      background: rgba(217,181,127,0.11);
+      color: var(--fg);
+      transform: translateX(4px);
+    }
+    .turn-choice .n {
+      flex: 0 0 26px; height: 26px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700; font-size: 0.85rem;
+      color: var(--accent);
+      border: 1px solid var(--border-strong);
+      border-radius: 50%;
+      background: var(--accent-glow);
+    }
+    .turn-custom {
+      margin-top: 12px;
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 16px;
+      border: 1px dashed var(--border-strong);
+      border-radius: 12px;
+      color: var(--tertiary-fg);
+      font-size: 0.92rem;
+      font-style: italic;
+    }
+    .turn-custom::before { content: '✎'; color: var(--accent); font-style: normal; }
+    .turn-note {
+      margin-top: 16px;
+      font-size: 0.8rem;
+      color: var(--tertiary-fg);
+    }
+
+    /* Genre scenario cards — real painted covers + catalog copy. */
+    .adv-worlds-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+    @media (max-width: 900px) { .adv-worlds-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .adv-worlds-grid { grid-template-columns: 1fr; } }
+    .world-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--card);
+      transition: transform .3s var(--ease), box-shadow .3s, border-color .3s;
+    }
+    .world-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--border-strong);
+      box-shadow: 0 26px 64px rgba(6,3,18,0.65);
+    }
+    .world-card img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      transition: transform .5s var(--ease);
+    }
+    .world-card:hover img { transform: scale(1.04); }
+    .world-card .world-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 30%, rgba(6,3,18,0.55) 62%, rgba(6,3,18,0.93));
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 20px;
+    }
+    .world-card .world-genre {
+      align-self: flex-start;
+      font-size: 0.66rem; font-weight: 800;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--primary-dark);
+      background: var(--gold-grad);
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+    .world-card h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.35rem;
+      line-height: 1.25;
+      color: #fff;
+      margin-bottom: 5px;
+      padding-bottom: 0.08em;
+    }
+    .world-card .world-tagline {
+      font-size: 0.88rem;
+      color: rgba(245,241,232,0.82);
+      line-height: 1.5;
+    }
+    .adv-more {
+      text-align: center;
+      margin-top: 30px;
+      color: var(--muted-fg);
+      font-size: 0.95rem;
+    }
+    .adv-more strong { color: var(--accent); font-weight: 600; }
+
     /* ===== FAQ ===== */
     .faq-list { max-width: 740px; margin: 0 auto; }
     details.faq {
@@ -892,6 +1051,7 @@
       </a>
       <div class="links">
         <a href="#how">How it works</a>
+        <a href="#adventure">AI Adventure</a>
         <a href="#features">Features</a>
         <a href="#screens">Screens</a>
         <a href="#plans">Pro</a>
@@ -931,8 +1091,12 @@
           <div class="device-stage">
             <div class="device device-hero">
               <div class="hero-carousel">
-                <img src="screenshots/home.jpg" width="720" height="1564" alt="StoryVault AI home — Continue Reading Frankenstein, Write a Story and AI Adventure buttons, and Most Popular classics">
-                <img src="screenshots/adventure.jpg" width="720" height="1564" alt="AI Adventure — Tonight's Tale: Veilkeep Manor, Write Your Own Tale, and Browse by mood" loading="lazy">
+                <img src="screenshots/home.jpg" width="720" height="1564" alt="StoryVault AI home in light mode — Continue Reading Frankenstein, Write a Story and AI Adventure buttons, and Most Popular classics">
+                <img src="screenshots/adventure-play.jpg" width="720" height="1564" alt="A live AI Adventure turn in Veilkeep Manor, dark mode — streaming gothic prose" loading="lazy">
+                <img src="screenshots/library.jpg" width="720" height="1564" alt="Your Vault library in light mode — the Veilkeep Manor adventure beside Alice, Dracula, and Frankenstein" loading="lazy">
+                <img src="screenshots/reader-dark.jpg" width="720" height="1564" alt="The reader in dark mode — Alice in Wonderland in a clean night-reading view" loading="lazy">
+                <img src="screenshots/write-story.jpg" width="720" height="1564" alt="Write Your Own Story composer in light mode — quick-start flavors and Conjure a Story" loading="lazy">
+                <img src="screenshots/home-dark.jpg" width="720" height="1564" alt="StoryVault AI home in dark mode — the same literary home by night" loading="lazy">
               </div>
             </div>
           </div>
@@ -987,14 +1151,104 @@
           </ol>
         </div>
         <div class="reveal">
-          <img class="how-image" src="hero-branching.png" alt="An ornate antique quill writing branching golden ink" loading="lazy">
+          <div class="device-stage">
+            <div class="device" style="max-width: 320px;">
+              <img src="screenshots/book-detail-dark.jpg" width="720" height="1564" alt="Alice in Wonderland book detail in dark mode — painted cover, Fantasy tag, chapters, and first-pages preview" loading="lazy">
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ===== AI ADVENTURE SHOWCASE ===== -->
+  <section class="section-block" id="adventure" style="background: linear-gradient(180deg, rgba(23,16,48,0.0), rgba(23,16,48,0.5) 18%, rgba(23,16,48,0.5) 82%, rgba(23,16,48,0.0));">
+    <div class="container">
+      <div class="section-eyebrow center">The headline act</div>
+      <h2 style="text-align:center;" class="reveal">AI Adventure. <em class="grad">Your move.</em></h2>
+      <p class="lede reveal" style="text-align:center; margin-left:auto; margin-right:auto;">Every turn, the AI writes the next page in the voice of the world you're in — then hands you the pen. Pick a branch, or type anything at all. This is what a turn looks like.</p>
+
+      <div class="adv-hero-grid">
+        <div class="reveal">
+          <div class="device-stage">
+            <div class="device">
+              <img src="screenshots/adventure-play.jpg" width="720" height="1564" alt="A live AI Adventure turn in Veilkeep Manor — streaming gothic prose with tappable choices below" loading="lazy">
+            </div>
+          </div>
+        </div>
+        <div class="turn-panel reveal">
+          <div class="turn-kicker">Veilkeep Manor · Chapter 1 · Arrival at Veilkeep</div>
+          <p class="prose">On a side table just inside the entrance lies a folded note beneath a house key on a blackened iron ring. Your name — your exact name, spelled correctly — <em>is written on the outside in a hand that is not the solicitor's.</em></p>
+          <div class="turn-choices">
+            <div class="turn-choice"><span class="n">1</span> Read the note before going any further</div>
+            <div class="turn-choice"><span class="n">2</span> Take the key and press toward the ticking clock</div>
+            <div class="turn-choice"><span class="n">3</span> Step back outside and walk the manor's perimeter first</div>
+          </div>
+          <div class="turn-custom">Or type your own — "What if I refused the inheritance?"</div>
+          <p class="turn-note">Prose and choices from a live run of the real Veilkeep Manor scenario — the same turn shown on the phone. Every branch is written fresh; no two runs are the same.</p>
+        </div>
+      </div>
+
+      <div class="section-eyebrow center">195 doors, one vault</div>
+      <h2 style="text-align:center;" class="reveal">Pick a world. <em class="grad">Any world.</em></h2>
+      <p class="lede reveal" style="text-align:center; margin-left:auto; margin-right:auto;">Six of the worlds waiting inside — painted, premised, and playable tonight. Every classic on the shelf has one, and the original worlds are built for nothing else.</p>
+
+      <div class="adv-worlds-grid reveal-stagger">
+        <div class="world-card">
+          <img src="art/scenario-veilkeep.jpg" width="480" height="600" alt="Veilkeep Manor — a brooding gothic manor at dusk, painted cover" loading="lazy">
+          <div class="world-overlay">
+            <span class="world-genre">Horror</span>
+            <h3>Veilkeep Manor</h3>
+            <p class="world-tagline">Inherit a house that doesn't want you</p>
+          </div>
+        </div>
+        <div class="world-card">
+          <img src="art/scenario-prismshard.jpg" width="480" height="600" alt="The Prismshard Heist — a jeweled relic in a warded temple, painted cover" loading="lazy">
+          <div class="world-overlay">
+            <span class="world-genre">Fantasy</span>
+            <h3>The Prismshard Heist</h3>
+            <p class="world-tagline">One night to steal a god's eye</p>
+          </div>
+        </div>
+        <div class="world-card">
+          <img src="art/scenario-ironbridge.jpg" width="480" height="600" alt="Ironbridge Drift — a derelict cargo ship adrift between stars, painted cover" loading="lazy">
+          <div class="world-overlay">
+            <span class="world-genre">Sci-fi</span>
+            <h3>Ironbridge Drift</h3>
+            <p class="world-tagline">A derelict cargo ship between stars</p>
+          </div>
+        </div>
+        <div class="world-card">
+          <img src="art/scenario-blackbird.jpg" width="480" height="600" alt="The Blackbird Job — a noir Los Angeles night, painted cover" loading="lazy">
+          <div class="world-overlay">
+            <span class="world-genre">Mystery</span>
+            <h3>The Blackbird Job</h3>
+            <p class="world-tagline">A widow in a black hat, a missing brother, and an LA night that won't end</p>
+          </div>
+        </div>
+        <div class="world-card">
+          <img src="art/scenario-salted-king.jpg" width="480" height="600" alt="The Salted King — a pirate sloop meeting a galleon at moonrise, painted cover" loading="lazy">
+          <div class="world-overlay">
+            <span class="world-genre">Adventure</span>
+            <h3>The Salted King</h3>
+            <p class="world-tagline">A pirate sloop, a Spanish galleon at moonrise, and a captain who knows your face</p>
+          </div>
+        </div>
+        <div class="world-card">
+          <img src="art/scenario-coltspur.jpg" width="480" height="600" alt="Dust at Coltspur — a frontier mining town at dusk, painted cover" loading="lazy">
+          <div class="world-overlay">
+            <span class="world-genre">Western</span>
+            <h3>Dust at Coltspur</h3>
+            <p class="world-tagline">A mining town that buried its last marshal quietly</p>
+          </div>
+        </div>
+      </div>
+      <p class="adv-more reveal">Plus <strong>87 classics</strong> with scenarios in the source's own voice, and whole shelves of <strong>myth, folklore, history, stage &amp; screen, and epic poetry</strong> — 190+ scenarios in all.</p>
+    </div>
+  </section>
+
   <!-- ===== FEATURES ===== -->
-  <section class="section-block" id="features" style="background: linear-gradient(180deg, rgba(23,16,48,0.0), rgba(23,16,48,0.5) 18%, rgba(23,16,48,0.5) 82%, rgba(23,16,48,0.0));">
+  <section class="section-block" id="features">
     <div class="container">
       <div class="section-eyebrow">What's inside</div>
       <h2 class="reveal">Every classic. <em class="grad">Every choice.</em></h2>
@@ -1056,7 +1310,7 @@
         <div class="screen-card">
           <div class="device-stage">
             <div class="device">
-              <img src="screenshots/adventure.jpg" width="720" height="1564" alt="AI Adventure — Tonight's Tale: Veilkeep Manor, Write Your Own Tale, and Browse by mood" loading="lazy">
+              <img src="screenshots/adventure-dark.jpg" width="720" height="1564" alt="AI Adventure picker in dark mode — Tonight's Tale: Veilkeep Manor under a full moon, Write Your Own Tale, and Browse by mood" loading="lazy">
             </div>
           </div>
           <div class="screen-label">
@@ -1078,7 +1332,7 @@
         <div class="screen-card">
           <div class="device-stage">
             <div class="device">
-              <img src="screenshots/library.jpg" width="720" height="1564" alt="Your Vault — Alice in Wonderland (Fantasy) and Frankenstein (Horror) with genre pills and reading progress" loading="lazy">
+              <img src="screenshots/library.jpg" width="720" height="1564" alt="Your Vault — the Veilkeep Manor adventure beside Alice in Wonderland, Dracula, and Frankenstein, with genre pills and reading progress" loading="lazy">
             </div>
           </div>
           <div class="screen-label">
@@ -1093,9 +1347,9 @@
   <!-- ===== DEEPER SCREENS ===== -->
   <section class="section-block tight" id="daynight" style="background: linear-gradient(180deg, rgba(23,16,48,0.0), rgba(23,16,48,0.5) 18%, rgba(23,16,48,0.5) 82%, rgba(23,16,48,0.0));">
     <div class="container">
-      <div class="section-eyebrow center">And deeper</div>
+      <div class="section-eyebrow center">Day &amp; night</div>
       <h2 style="text-align:center;" class="reveal">Read it. Write it. <em class="grad">Share it.</em></h2>
-      <p class="lede reveal" style="text-align:center; margin-left:auto; margin-right:auto;">Painted covers with editorial blurbs and first-page previews. A full story composer built to write like a novelist. Achievements and stats on your profile. Community Tales from StoryVault Originals and fellow readers.</p>
+      <p class="lede reveal" style="text-align:center; margin-left:auto; margin-right:auto;">Every screen ships in light and dark — warm parchment by day, deep violet night mode after hours. Painted covers with first-page previews, a story composer built to write like a novelist, achievements on your profile, and community Tales.</p>
       <div class="screens-grid reveal-stagger">
         <div class="screen-card">
           <div class="device-stage">
@@ -1122,23 +1376,23 @@
         <div class="screen-card">
           <div class="device-stage">
             <div class="device">
-              <img src="screenshots/profile.jpg" width="720" height="1564" alt="Profile — books, adventures, and unlocks at a glance, recent achievements, and light/dark appearance themes" loading="lazy">
+              <img src="screenshots/profile-dark.jpg" width="720" height="1564" alt="Profile in dark mode — books, adventures, and unlocks at a glance, recent achievements, and appearance themes" loading="lazy">
             </div>
           </div>
           <div class="screen-label">
             <strong>Your profile</strong>
-            Achievements, stats, themes
+            Achievements, stats, themes — by night
           </div>
         </div>
         <div class="screen-card">
           <div class="device-stage">
             <div class="device">
-              <img src="screenshots/tales.jpg" width="720" height="1564" alt="Tales — community Discover feed with featured StoryVault Originals like The Lantern in the Snow" loading="lazy">
+              <img src="screenshots/tales-dark.jpg" width="720" height="1564" alt="Tales in dark mode — community Discover feed with featured StoryVault Originals like The Lantern in the Snow" loading="lazy">
             </div>
           </div>
           <div class="screen-label">
             <strong>Tales</strong>
-            Community stories to explore
+            Community stories, after dark
           </div>
         </div>
       </div>
