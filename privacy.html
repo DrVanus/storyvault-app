@@ -31,48 +31,62 @@
 
   <main class="legal">
     <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: 2026-05-08</p>
+    <p class="updated">Last updated: 2026-07-19</p>
 
     <h2>Who we are</h2>
     <p>StoryVault AI is an iOS app published by <strong>Hypersage AI Labs</strong>. Contact: <a href="mailto:dmusk188@gmail.com">dmusk188@gmail.com</a>.</p>
 
+    <h2>The short version</h2>
+    <ul>
+      <li>You can read and play <strong>without an account</strong>. Signing in is optional.</li>
+      <li>The story text you create is sent to AI providers to generate the next scene, an illustration, and narration — <strong>none of it is used to train their models.</strong></li>
+      <li>Your library, reading progress, and adventure runs are stored <strong>on your device</strong>.</li>
+      <li>We don't sell your data, we don't show ads, and we don't track you across apps.</li>
+    </ul>
+
     <h2>What this app collects</h2>
 
     <h3>1. Story content you create</h3>
-    <p>When you start an AI Adventure or submit a choice, your input (the choice text and the prior turns of that adventure) is transmitted to our backend at <code>storyvault-api.fly.dev</code>. Our backend forwards it to OpenAI's API to generate the next narrative segment and an accompanying illustration. <strong>Neither we nor OpenAI use this input to train models.</strong> Your input is not stored on our servers beyond the lifetime of the request.</p>
+    <p>When you start an AI Adventure, submit a choice, write a custom premise, or tap to have a tale read aloud, your input (the text and the prior turns of that adventure) is transmitted to our backend at <code>storyvault-api.fly.dev</code>. Our backend forwards it to an AI provider — <strong>OpenAI</strong> (our primary provider) or <strong>Anthropic</strong> (fallback) — to generate the next narrative segment, to <strong>OpenAI</strong> to generate an accompanying illustration, and to <strong>OpenAI</strong>'s text-to-speech to produce narration audio. <strong>Neither we nor these providers use this input to train models.</strong> This input is not retained on our servers beyond the lifetime of the request (aside from any story you explicitly publish — see §4).</p>
 
-    <h3>2. Purchase information</h3>
-    <p>When you purchase StoryVault Pro, the App Store sends us a signed transaction (JWS). We forward it to our backend for verification (<code>storyvault-api.fly.dev/v1/iap/verify</code>) and store no record of the purchase beyond the entitlement state required to unlock features. The App Store handles billing, refunds, and your Apple ID — we never see your payment method.</p>
+    <h3>2. Account (optional)</h3>
+    <p>You can browse, read, and play anonymously — the app works on first launch, subject to a daily usage cap. If you choose to <strong>Sign in with Apple</strong> or <strong>Sign in with Google</strong> (to sync across devices, remove the anonymous cap, or publish to the Marketplace), we receive and store: the <strong>opaque user identifier</strong> from Apple or Google, your <strong>email address</strong> if the provider passes it to us (Apple's Hide My Email is supported), and an <strong>author display name</strong> you set. Our backend issues a session token tied to that account. Signing in is entirely optional and can be undone by signing out.</p>
 
-    <h3>3. Anonymous usage events (telemetry)</h3>
-    <p>We use <a href="https://posthog.com/privacy" rel="noopener">PostHog</a> to collect anonymous event-level analytics: app launches, screens visited, errors, and feature usage. Each event includes a randomly-generated device identifier (PostHog's anonymous ID), the event name, and contextual properties (e.g. <code>scenario_id</code>, <code>turn_count</code>). Events do <strong>not</strong> include the content of your stories, your name, your email, or your Apple ID. You can opt out at any time by setting "Share Analytics" to off in <strong>iOS Settings → Privacy &amp; Security → Analytics &amp; Improvements</strong> (this disables PostHog at the device level).</p>
+    <h3>3. Purchase information</h3>
+    <p>When you purchase StoryVault Pro, the App Store sends us a signed transaction (JWS). We forward it to our backend for verification and store no record of the purchase beyond the entitlement state required to unlock features. The App Store handles billing, refunds, and your Apple ID — we never see your payment method.</p>
 
-    <h3>4. On-device storage</h3>
-    <p>Your saved books, reading progress, adventure runs, custom premises, and unlocked achievements are stored locally on your device using Apple's SwiftData framework. They never leave your device. We do not back them up to our servers. iCloud Backup, if you have it enabled, includes them per your iOS device settings.</p>
+    <h3>4. Stories you publish (opt-in)</h3>
+    <p>If you choose to publish a story to the community <strong>Marketplace</strong>, the story text and your <strong>author display name</strong> are stored on our backend and, after an automated moderation check, made publicly visible to other users. This is entirely opt-in — nothing you write is shared unless you publish it. You can request removal of a published story at any time.</p>
+
+    <h3>5. On-device storage</h3>
+    <p>Your saved books, reading progress, adventure runs, custom premises, and unlocked achievements are stored locally on your device using Apple's SwiftData framework. iCloud Backup, if you have it enabled, includes them per your iOS device settings.</p>
+
+    <h2>Analytics</h2>
+    <p>StoryVault AI currently ships with <strong>no active analytics or tracking SDK</strong>. The app does not collect usage telemetry in this release. If we enable privacy-preserving, anonymous analytics in a future version, we will update this policy and the App Store privacy details before doing so.</p>
 
     <h2>What this app does not collect</h2>
     <ul>
-      <li>Your name, email address, or login credentials (the app has no login).</li>
-      <li>Your location.</li>
-      <li>Your contacts, photos, calendar, or microphone.</li>
+      <li>Your name, email, or account credentials <strong>unless you choose to sign in</strong> (and even then, never a password — sign-in is handled by Apple or Google).</li>
+      <li>Your location, contacts, photos, calendar, or microphone.</li>
+      <li>Any advertising identifier (no IDFA) and no cross-app tracking.</li>
       <li>Any data from outside StoryVault AI.</li>
-      <li>Your IP address as a tracking identifier (the request reaches our backend over Fly.io's CDN; we do not log IPs).</li>
     </ul>
 
     <h2>Third parties</h2>
     <ul>
-      <li><strong>Apple App Store</strong>: handles purchases and Apple ID authentication. <a href="https://www.apple.com/legal/privacy/en-ww/" rel="noopener">apple.com/legal/privacy</a></li>
-      <li><strong>OpenAI</strong>: receives your story input to generate narrative and illustrations. <a href="https://openai.com/policies/privacy-policy" rel="noopener">openai.com/policies/privacy-policy</a></li>
+      <li><strong>Apple App Store</strong>: purchases and Sign in with Apple. <a href="https://www.apple.com/legal/privacy/en-ww/" rel="noopener">apple.com/legal/privacy</a></li>
+      <li><strong>Google</strong>: Sign in with Google, only if you use it. <a href="https://policies.google.com/privacy" rel="noopener">policies.google.com/privacy</a></li>
+      <li><strong>OpenAI</strong>: primary provider for narrative, illustrations, and narration. <a href="https://openai.com/policies/privacy-policy" rel="noopener">openai.com/policies/privacy-policy</a></li>
+      <li><strong>Anthropic</strong>: fallback provider for narrative generation. <a href="https://www.anthropic.com/legal/privacy" rel="noopener">anthropic.com/legal/privacy</a></li>
       <li><strong>Fly.io</strong>: hosts our backend infrastructure. <a href="https://fly.io/legal/privacy-policy" rel="noopener">fly.io/legal/privacy-policy</a></li>
-      <li><strong>PostHog</strong>: receives anonymous usage events. <a href="https://posthog.com/privacy" rel="noopener">posthog.com/privacy</a></li>
     </ul>
 
     <h2>Children</h2>
-    <p>StoryVault AI is rated 12+. We do not knowingly collect data from children under 13. If you believe we have, please contact us at <a href="mailto:dmusk188@gmail.com">dmusk188@gmail.com</a>.</p>
+    <p>StoryVault AI is rated 12+. The bundled library is public-domain literature, and the AI Adventure system prompt explicitly excludes explicit sexual content and child endangerment. We do not knowingly collect data from children under 13. If you believe we have, please contact us at <a href="mailto:dmusk188@gmail.com">dmusk188@gmail.com</a>.</p>
 
     <h2>Your rights</h2>
-    <p>You can delete all on-device data by deleting the app. You can revoke your Pro subscription via <strong>iOS Settings → Apple ID → Subscriptions</strong>. You can opt out of analytics via <strong>iOS Settings → Privacy &amp; Security → Analytics &amp; Improvements</strong>.</p>
-    <p>If you are in the EU/UK, you have rights to access, correct, delete, and port your data under GDPR. Since we do not store your story content or any identifier, the practical scope is limited; contact us at <a href="mailto:dmusk188@gmail.com">dmusk188@gmail.com</a> with any specific request.</p>
+    <p>You can delete all on-device data by deleting the app. If you have an account, you can sign out at any time, and you can request deletion of your account, published stories, and any associated data by emailing <a href="mailto:dmusk188@gmail.com">dmusk188@gmail.com</a>. You can revoke your Pro subscription via <strong>iOS Settings → Apple ID → Subscriptions</strong>.</p>
+    <p>If you are in the EU/UK (GDPR) or California (CCPA), you have rights to access, correct, delete, and port your data. We do not sell your personal information. Contact us at <a href="mailto:dmusk188@gmail.com">dmusk188@gmail.com</a> with any specific request.</p>
 
     <h2>Changes</h2>
     <p>If we change this policy, we will update the "Last updated" date and post the new version at <a href="privacy.html">this page</a>. Material changes will be announced via the App Store update notes.</p>
